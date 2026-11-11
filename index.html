@@ -3,123 +3,159 @@
 <html lang="nl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Klopjacht Oostende 🐷</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klopjacht Oostende – Woste Edition 🐷</title>
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101b2a;
+      --card: #1c2b3e;
+      --border: #41516a;
+      --text: #f6f4ef;
+      --muted: #b6c5d6;
+      --accent: #f16b62;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      background: #101b2a;
-      color: #f6f4ef;
-      font: 16px system-ui;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.5 system-ui, sans-serif;
     }
+
     main {
-      max-width: 520px;
-      margin: 35px auto;
+      max-width: 560px;
+      margin: 28px auto;
       padding: 18px;
     }
+
+    h1 { font-size: 2rem; margin-bottom: 4px; }
+    h2 { margin-top: 0; }
+
+    .subtitle { color: var(--muted); margin-bottom: 24px; }
+
     .card {
-      background: #1c2b3e;
-      padding: 25px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 24px;
       border-radius: 20px;
-      border: 1px solid #41516a;
+      margin-bottom: 18px;
     }
-    h1 { font-size: 2rem; }
+
     label {
       display: block;
-      margin-top: 16px;
+      margin-top: 18px;
       font-weight: 650;
     }
+
     input, select {
       width: 100%;
-      box-sizing: border-box;
       margin-top: 7px;
       padding: 13px;
-      border-radius: 9px;
-      border: 0;
-      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #142032;
+      font: inherit;
     }
+
     button {
-      background: #f16b62;
+      background: var(--accent);
       color: #111;
       padding: 13px 17px;
       border: 0;
       border-radius: 10px;
+      font: inherit;
       font-weight: 750;
       cursor: pointer;
       margin-top: 16px;
     }
-    button:disabled { opacity: .5; }
+
+    button:disabled { opacity: .55; cursor: wait; }
+
     button.alt {
       background: #334c64;
-      color: white;
+      color: #fff;
     }
-    .muted { color: #b6c5d6; }
-    .error {
-      color: #ffc6c6;
-      white-space: pre-wrap;
-    }
-    .ok { color: #b7e9c1; }
-    .hide { display: none; }
-    .grid {
+
+    .buttons {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .grid > * { flex: 1; }
-    small { color: #b6c5d6; }
+
+    .buttons button { flex: 1; }
+
+    .muted, small { color: var(--muted); }
+    .ok { color: #b7e9c1; }
+    .error { color: #ffc6c6; }
+    .hide { display: none !important; }
+
+    #status {
+      min-height: 24px;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      font-size: 13px;
+      color: var(--muted);
+    }
   </style>
 </head>
+
 <body>
 <main>
   <h1>🐷 Klopjacht Oostende</h1>
-  <p>Woste Edition 🌭 · 22 november 2026 · 14u14–17u17</p>
+  <p class="subtitle">
+    Woste Edition 🌭 · zondag 22 november 2026 · 14u14–17u17
+  </p>
 
-  <section class="card" id="setup">
-    <h2>Eenmalige website-instelling</h2>
-    <p class="muted">
-      Alleen voor de organisator. Vul de publieke Supabase
-      Project URL en publishable key in.
-      Dit wordt op dit toestel opgeslagen.
-      Voor alle spelers moet de website later centraal
-      geconfigureerd worden.
-    </p>
-    <label>
-      Supabase URL
-      <input id="url" placeholder="https://xxxx.supabase.co">
-    </label>
-    <label>
-      Publishable / anon key
-      <input id="key" placeholder="sb_publishable_...">
-    </label>
-    <button id="save">Verbinden</button>
-  </section>
-
-  <section class="card hide" id="auth">
+  <section class="card" id="auth">
     <h2>🔐 Mijn geheime dossier</h2>
-    <label>
-      Wie ben jij?
-      <select id="name"></select>
-    </label>
-    <label>
-      Jouw pincode (6 cijfers)
-      <input id="pin" type="password" inputmode="numeric"
-             maxlength="6" pattern="[0-9]{6}"
-             autocomplete="off">
-    </label>
+    <p class="muted">
+      Kies je naam en registreer je met je persoonlijke
+      uitnodigingscode. Daarna kun je telkens opnieuw
+      aanmelden met je eigen pincode.
+    </p>
+
+    <label for="name">Wie ben jij?</label>
+    <select id="name">
+      <option value="">Selecteer je naam</option>
+    </select>
+
+    <label for="pin">Jouw geheime pincode (6 cijfers)</label>
+    <input
+      id="pin"
+      type="password"
+      inputmode="numeric"
+      maxlength="6"
+      pattern="[0-9]{6}"
+      autocomplete="off"
+      placeholder="••••••"
+    >
+
     <div id="inviteWrap">
-      <label>
-        Persoonlijke uitnodigingscode
-        <input id="invite" autocomplete="off"
-               placeholder="Code van de spelleider">
-      </label>
+      <label for="invite">Persoonlijke uitnodigingscode</label>
+      <input
+        id="invite"
+        autocomplete="off"
+        autocapitalize="characters"
+        placeholder="Code van de spelleider"
+      >
     </div>
-    <div class="grid">
+
+    <div class="buttons">
       <button id="claim">Eerste keer registreren</button>
       <button class="alt" id="login">Ik heb al een pincode</button>
     </div>
+
     <p class="muted">
-      Geen e-mailadres nodig. Bewaar je pincode.
-      Deel je uitnodigingscode niet.
+      <small>
+        Geen e-mailadres nodig. Bewaar je pincode goed.
+        Je uitnodigingscode is persoonlijk en eenmalig.
+      </small>
     </p>
   </section>
 
@@ -127,63 +163,89 @@
     <h2 id="greeting"></h2>
 
     <div id="voting">
-      <p>Je keuze is nog niet vergrendeld.</p>
-      <label>
-        Jouw geheime rol
-        <select id="role">
-          <option value="">Maak je keuze</option>
-          <option value="voortvluchtige">🔴 Voortvluchtige</option>
-          <option value="speurder">🔵 Speurder</option>
-          <option value="verras_me">🎲 Verras me</option>
-        </select>
-      </label>
+      <p>
+        Welkom in de geheime stemming! Niemand anders
+        kan jouw keuze bekijken via deze pagina.
+      </p>
+
+      <label for="role">Welke rol wil jij het liefst?</label>
+      <select id="role">
+        <option value="">Maak je keuze</option>
+        <option value="voortvluchtige">
+          🔴 Voortvluchtige – op de vlucht!
+        </option>
+        <option value="speurder">
+          🔵 Speurder – op jacht!
+        </option>
+        <option value="verras_me">
+          🎲 Verras me – ik durf alles!
+        </option>
+      </select>
 
       <div id="guideWrap">
-        <label>
+        <label for="guide">
           Wil jij zwijntjes begeleiden? 🐷
-          <select id="guide">
-            <option value="">Maak je keuze</option>
-            <option value="ja">Ja, graag!</option>
-            <option value="misschien">Als het nodig is</option>
-            <option value="nee">Liever niet</option>
-          </select>
         </label>
+        <select id="guide">
+          <option value="">Maak je keuze</option>
+          <option value="ja">Ja, graag!</option>
+          <option value="misschien">Als het nodig is</option>
+          <option value="nee">Liever niet</option>
+        </select>
       </div>
 
-      <button id="vote">🔒 Vergrendel mijn keuze</button>
-      <p>
+      <button id="vote">🔒 Mijn keuze definitief vastleggen</button>
+
+      <p class="muted">
         <small>
-          Deadline: 19 november 2026, 19u11
-          (Belgische tijd). Je keuze kan daarna
-          niet meer worden aangepast.
+          Stemmen kan tot donderdag 19 november 2026
+          om 19u11 (Belgische tijd).
+          Na het vastleggen kun je je keuze niet meer wijzigen.
         </small>
       </p>
     </div>
 
     <div id="locked" class="hide">
-      <p class="ok">🔒 Je keuze is definitief geregistreerd!</p>
-      <p><strong>Rol:</strong> <span id="myrole"></span></p>
+      <p class="ok">
+        🔒 Je geheime keuze is geregistreerd!
+      </p>
+      <p>
+        <strong>Jouw voorkeur:</strong>
+        <span id="myrole"></span>
+      </p>
       <p id="myguide"></p>
-      <p><strong>Vastgelegd op:</strong> <span id="mytime"></span></p>
+      <p>
+        <strong>Vastgelegd op:</strong>
+        <span id="mytime"></span>
+      </p>
       <p class="muted">
-        Alleen jij kunt je eigen keuze hier terugzien.
+        Je kunt later opnieuw aanmelden om
+        je eigen keuze te bekijken.
       </p>
     </div>
 
     <button class="alt" id="logout">Uitloggen</button>
   </section>
 
-  <p id="status" role="alert"></p>
-  <p class="muted">
-    <small>
-      Minderjarigen spelen altijd onder begeleiding van
-      een verantwoordelijke volwassene.
-      Er worden geen live locaties bijgehouden.
-    </small>
+  <p id="status" role="alert" aria-live="polite"></p>
+
+  <p class="footer">
+    🐷 Minderjarigen spelen altijd onder begeleiding
+    van een verantwoordelijke volwassene.
+    Deze website volgt geen live locaties.
   </p>
 </main>
 
 <script>
+'use strict';
+
+// Publieke Supabase-configuratie.
+// Geen service_role of geheime sleutel gebruiken.
+const config = {
+  url: 'https://uhpwrphauljuytxpxjqi.supabase.co',
+  key: 'sb_publishable_n2aJgQUPeiN2g_fks1LjVA_npSIxoGC'
+};
+
 const names = [
   'Tom', 'Tine', 'Wim', 'Elien', 'Eline',
   'Thijs', 'Nils', 'Silke', 'Dries', 'Fre',
@@ -193,129 +255,147 @@ const names = [
 
 const $ = id => document.getElementById(id);
 
-$('name').innerHTML =
-  '<option value="">Selecteer je naam</option>' +
-  names.map(n => `<option>${n}</option>`).join('');
+const nameSelect = $('name');
 
-let config = JSON.parse(
-  localStorage.getItem('klop_config') || 'null'
-);
+names.forEach(name => {
+  const option = document.createElement('option');
+  option.value = name;
+  option.textContent = name;
+  nameSelect.appendChild(option);
+});
+
 let token = sessionStorage.getItem('klop_session') || '';
 
 function show(id) {
-  for (let x of ['setup', 'auth', 'profile']) {
-    $(x).classList.toggle('hide', x !== id);
+  for (const section of ['auth', 'profile']) {
+    $(section).classList.toggle('hide', section !== id);
   }
 }
 
-function msg(t, error = false) {
-  $('status').textContent = t;
-  $('status').className = error ? 'error' : 'ok';
+function msg(text, isError = false) {
+  $('status').textContent = text;
+  $('status').className = isError ? 'error' : 'ok';
 }
 
-async function rpc(fn, data) {
-  if (!config) throw Error('Geen databasekoppeling');
+function busy(value) {
+  for (const id of ['claim', 'login', 'vote', 'logout']) {
+    $(id).disabled = value;
+  }
+}
 
-  const r = await fetch(
-    config.url + '/rest/v1/rpc/' + fn,
+async function rpc(functionName, data) {
+  const response = await fetch(
+    `${config.url}/rest/v1/rpc/${functionName}`,
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': config.key,
-        'Authorization': 'Bearer ' + config.key
+        'apikey': config.key
       },
       body: JSON.stringify(data)
     }
   );
 
-  let v = await r.json().catch(() => null);
+  const result = await response.json().catch(() => null);
 
-  if (!r.ok) {
-    throw Error(v?.message || 'Verbinding mislukt');
+  if (!response.ok) {
+    throw new Error(
+      result?.message ||
+      'Er ging iets mis met de verbinding.'
+    );
   }
 
-  if (v?.error) throw Error(v.error);
-  return v;
+  if (result?.error) {
+    throw new Error(result.error);
+  }
+
+  return result;
 }
 
 async function load() {
   if (!token) {
-    show(config ? 'auth' : 'setup');
+    show('auth');
     return;
   }
 
   try {
-    let p = await rpc('klop_me', { p_token: token });
+    const player = await rpc('klop_me', {
+      p_token: token
+    });
 
     show('profile');
-    $('greeting').textContent = 'Welkom, ' + p.name + '! 🐷';
 
-    $('voting').classList.toggle('hide', !!p.locked_at);
-    $('locked').classList.toggle('hide', !p.locked_at);
-    $('guideWrap').classList.toggle('hide', p.is_minor);
+    $('greeting').textContent =
+      `Welkom, ${player.name}! 🐷`;
 
-    if (p.locked_at) {
-      $('myrole').textContent = ({
+    const locked = Boolean(player.locked_at);
+
+    $('voting').classList.toggle('hide', locked);
+    $('locked').classList.toggle('hide', !locked);
+    $('guideWrap').classList.toggle(
+      'hide',
+      player.is_minor
+    );
+
+    if (locked) {
+      const roles = {
         speurder: '🔵 Speurder',
         voortvluchtige: '🔴 Voortvluchtige',
         verras_me: '🎲 Verras me'
-      })[p.role];
+      };
 
-      $('myguide').textContent = p.is_minor
+      const guides = {
+        ja: 'Ja, graag!',
+        misschien: 'Als het nodig is',
+        nee: 'Liever niet'
+      };
+
+      $('myrole').textContent =
+        roles[player.role] || player.role;
+
+      $('myguide').textContent = player.is_minor
         ? ''
-        : 'Zwijntjes begeleiden: ' + ({
-            ja: 'Ja',
-            misschien: 'Indien nodig',
-            nee: 'Liever niet'
-          })[p.guide];
+        : 'Zwijntjes begeleiden: ' +
+          (guides[player.guide] || '-');
 
       $('mytime').textContent =
         new Intl.DateTimeFormat('nl-BE', {
           dateStyle: 'full',
           timeStyle: 'short',
           timeZone: 'Europe/Brussels'
-        }).format(new Date(p.locked_at));
+        }).format(new Date(player.locked_at));
     }
-  } catch (e) {
+  } catch (error) {
     token = '';
     sessionStorage.removeItem('klop_session');
     show('auth');
-    msg(e.message, true);
+    msg(error.message, true);
   }
 }
 
-$('save').onclick = () => {
-  let url = $('url').value.trim().replace(/\/$/, '');
-  let key = $('key').value.trim();
-
-  if (
-    !/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(url) ||
-    !key
-  ) {
-    msg('Controleer de Supabase URL en publieke sleutel', true);
-    return;
-  }
-
-  config = { url, key };
-  localStorage.setItem('klop_config', JSON.stringify(config));
-  show('auth');
-  msg('Koppeling lokaal bewaard.');
-};
-
-async function auth(first) {
-  let name = $('name').value;
-  let pin = $('pin').value;
+async function authenticate(firstTime) {
+  const name = $('name').value;
+  const pin = $('pin').value;
 
   if (!name || !/^[0-9]{6}$/.test(pin)) {
-    msg('Kies je naam en een pincode van 6 cijfers', true);
+    msg(
+      'Kies je naam en vul een pincode van 6 cijfers in.',
+      true
+    );
     return;
   }
 
+  if (firstTime && !$('invite').value.trim()) {
+    msg('Vul ook je uitnodigingscode in.', true);
+    return;
+  }
+
+  busy(true);
+
   try {
-    let v = await rpc(
-      first ? 'klop_claim' : 'klop_login',
-      first
+    const result = await rpc(
+      firstTime ? 'klop_claim' : 'klop_login',
+      firstTime
         ? {
             p_name: name,
             p_invite: $('invite').value.trim(),
@@ -327,63 +407,96 @@ async function auth(first) {
           }
     );
 
-    token = v.token;
+    if (!result?.token) {
+      throw new Error(
+        'Geen geldige sessie ontvangen.'
+      );
+    }
+
+    token = result.token;
     sessionStorage.setItem('klop_session', token);
 
     $('pin').value = '';
     $('invite').value = '';
-    msg('Je bent aangemeld');
+
+    msg('Je bent aangemeld! 🐷');
     await load();
-  } catch (e) {
-    msg(e.message, true);
+  } catch (error) {
+    msg(error.message, true);
+  } finally {
+    busy(false);
   }
 }
 
-$('claim').onclick = () => auth(true);
-$('login').onclick = () => auth(false);
+$('claim').addEventListener('click', () => {
+  authenticate(true);
+});
 
-$('vote').onclick = async () => {
-  if (!$('role').value) {
-    msg('Kies eerst je rol', true);
+$('login').addEventListener('click', () => {
+  authenticate(false);
+});
+
+$('vote').addEventListener('click', async () => {
+  const role = $('role').value;
+  const minor = $('guideWrap').classList.contains('hide');
+  const guide = minor ? null : $('guide').value;
+
+  if (!role) {
+    msg('Kies eerst je gewenste rol.', true);
     return;
   }
 
-  if (
-    !$('guideWrap').classList.contains('hide') &&
-    !$('guide').value
-  ) {
-    msg('Kies eerst of je zwijntjes wilt begeleiden', true);
+  if (!minor && !guide) {
+    msg(
+      'Kies eerst of je zwijntjes wilt begeleiden.',
+      true
+    );
     return;
   }
 
-  if (!confirm('Je keuze definitief vergrendelen?')) return;
+  if (!confirm(
+    'Ben je zeker? Je keuze wordt definitief vastgelegd.'
+  )) {
+    return;
+  }
+
+  busy(true);
 
   try {
     await rpc('klop_vote', {
       p_token: token,
-      p_role: $('role').value,
-      p_guide: $('guideWrap').classList.contains('hide')
-        ? null
-        : $('guide').value
+      p_role: role,
+      p_guide: guide
     });
 
-    msg('Je keuze is vergrendeld!');
+    msg('Je geheime keuze is vergrendeld! 🔒');
     await load();
-  } catch (e) {
-    msg(e.message, true);
+  } catch (error) {
+    msg(error.message, true);
+  } finally {
+    busy(false);
   }
-};
+});
 
-$('logout').onclick = async () => {
+$('logout').addEventListener('click', async () => {
+  busy(true);
+
   try {
-    await rpc('klop_logout', { p_token: token });
-  } catch {}
-
-  token = '';
-  sessionStorage.removeItem('klop_session');
-  msg('Uitgelogd');
-  show('auth');
-};
+    if (token) {
+      await rpc('klop_logout', {
+        p_token: token
+      });
+    }
+  } catch (error) {
+    // Ook bij een verbindingsfout lokaal uitloggen.
+  } finally {
+    token = '';
+    sessionStorage.removeItem('klop_session');
+    show('auth');
+    msg('Je bent uitgelogd.');
+    busy(false);
+  }
+});
 
 load();
 </script>
