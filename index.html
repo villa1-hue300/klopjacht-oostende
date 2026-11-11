@@ -11,3 +11,4 @@ $('claimBtn').onclick=async()=>{if(!$('name').value||!$('invite').value)return m
 $('lock').onclick=async()=>{let role=document.querySelector('input[name=role]:checked')?.value,guide=document.querySelector('input[name=guide]:checked')?.value||null,pin=$('pin').value;if(!role)return message('Kies eerst je rol');if(!me.minor&&!guide)return message('Kies of je zwijntjes wil begeleiden');if(!/^\d{6,10}$/.test(pin)||pin!==$('pin2').value)return message('Gebruik 6–10 cijfers en herhaal exact dezelfde pincode');if(!confirm('Je keuze definitief vergrendelen? Nadien kan je niet meer wijzigen.'))return;let {error}=await sb.rpc('lock_choice',{p_role:role,p_guide:me.minor?null:guide,p_pin:pin});if(error)err(error);else{message('Je keuze is vergrendeld!');init()}};
 connect();
 </script></body></html>
+
