@@ -3,112 +3,135 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Klopjacht Oostende – Woste Edition 🐷</title>
 <style>
 :root {
-  color-scheme:dark;
-  --bg:#101b2a;
-  --card:#1c2b3e;
-  --border:#41516a;
-  --text:#f6f4ef;
-  --muted:#b6c5d6;
-  --accent:#f16b62;
+  color-scheme: dark;
+  --bg: #101b2a;
+  --card: #1c2b3e;
+  --border: #41516a;
+  --text: #f6f4ef;
+  --muted: #b6c5d6;
+  --accent: #f16b62;
 }
-* { box-sizing:border-box; }
+* { box-sizing: border-box; }
 body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font:16px/1.5 system-ui,sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, sans-serif;
 }
 main {
-  max-width:650px;
-  margin:28px auto;
-  padding:18px;
+  max-width: 900px;
+  margin: 28px auto;
+  padding: 18px;
 }
-h1 { font-size:2rem; margin-bottom:4px; }
-h2 { margin-top:0; }
-.subtitle { color:var(--muted); margin-bottom:24px; }
+h1 { font-size: 2rem; margin-bottom: 4px; }
+h2 { margin-top: 0; }
+.subtitle { color: var(--muted); margin-bottom: 24px; }
 .card {
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:24px;
-  border-radius:20px;
-  margin-bottom:18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 24px;
+  border-radius: 20px;
+  margin-bottom: 18px;
 }
 label {
-  display:block;
-  margin-top:18px;
-  font-weight:650;
+  display: block;
+  margin-top: 18px;
+  font-weight: 650;
 }
-input,select {
-  width:100%;
-  margin-top:7px;
-  padding:13px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:#fff;
-  color:#142032;
-  font:inherit;
+input, select {
+  width: 100%;
+  margin-top: 7px;
+  padding: 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: #142032;
+  font: inherit;
 }
 button {
-  background:var(--accent);
-  color:#111;
-  padding:13px 17px;
-  border:0;
-  border-radius:10px;
-  font:inherit;
-  font-weight:750;
-  cursor:pointer;
-  margin-top:16px;
+  background: var(--accent);
+  color: #111;
+  padding: 13px 17px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+  margin-top: 16px;
 }
-button:disabled { opacity:.55; cursor:wait; }
-button.alt { background:#334c64; color:#fff; }
-.buttons { display:flex; gap:10px; flex-wrap:wrap; }
-.buttons button { flex:1; }
-.muted,small { color:var(--muted); }
-.ok { color:#b7e9c1; }
-.error { color:#ffc6c6; }
-.hide { display:none!important; }
-#status { min-height:24px; white-space:pre-wrap; }
-.footer { font-size:13px; color:var(--muted); }
+button:disabled { opacity: .55; cursor: wait; }
+button.alt { background: #334c64; color: #fff; }
+.buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+.buttons button { flex: 1; }
+.muted, small { color: var(--muted); }
+.ok { color: #b7e9c1; }
+.error { color: #ffc6c6; }
+.hide { display: none !important; }
+#status { min-height: 24px; white-space: pre-wrap; }
+.footer { font-size: 13px; color: var(--muted); }
 table {
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
 }
-th,td {
-  padding:10px 8px;
-  text-align:left;
-  border-bottom:1px solid var(--border);
+th, td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
 }
-th { color:var(--muted); }
-.tablewrap { overflow-x:auto; }
+th { color: var(--muted); }
+.tablewrap { overflow-x: auto; }
 .stats {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin:18px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 18px 0;
 }
 .stat {
-  background:#142236;
-  padding:14px;
-  border-radius:12px;
-  text-align:center;
+  background: #142236;
+  padding: 14px;
+  border-radius: 12px;
+  text-align: center;
 }
-.stat strong { display:block; font-size:1.6rem; }
-.stat span { color:var(--muted); font-size:12px; }
+.stat strong { display: block; font-size: 1.6rem; }
+.stat span { color: var(--muted); font-size: 12px; }
 .topbar {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
 }
-.topbar button { margin-top:0; }
-@media(max-width:450px) {
-  .stats { grid-template-columns:1fr 1fr; }
-  .card { padding:18px; }
+.topbar button { margin-top: 0; }
+.resetbox {
+  background: #142236;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 18px 0;
+}
+.resetcode {
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, monospace;
+  background: #0c1725;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.smallbutton {
+  padding: 7px 10px;
+  font-size: 12px;
+  margin-top: 0;
+  white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .card { padding: 18px; }
+  .topbar button { flex: 1; }
 }
 </style>
 </head>
@@ -150,9 +173,48 @@ th { color:var(--muted); }
     <button id="claim">Eerste keer registreren</button>
     <button class="alt" id="login">Ik heb al een pincode</button>
   </div>
+
+  <button class="alt" id="goReset">
+    🔑 Pincode vergeten?
+  </button>
+
   <p class="muted">
-    <small>Geen e-mailadres nodig. Bewaar je pincode goed.</small>
+    <small>
+      Geen e-mailadres nodig. Bewaar je pincode goed.
+      Je uitnodigingscode is persoonlijk en eenmalig.
+    </small>
   </p>
+</section>
+
+<section class="card hide" id="resetScreen">
+  <h2>🔑 Nieuwe pincode instellen</h2>
+  <p class="muted">
+    Vraag de spelleider om een persoonlijke herstelcode.
+    Die is 30 minuten geldig.
+  </p>
+
+  <label for="resetName">Wie ben jij?</label>
+  <select id="resetName">
+    <option value="">Selecteer je naam</option>
+  </select>
+
+  <label for="resetCode">Herstelcode</label>
+  <input id="resetCode" autocomplete="off"
+    autocapitalize="characters"
+    placeholder="Code van de spelleider">
+
+  <label for="resetPin">Nieuwe pincode (6 cijfers)</label>
+  <input id="resetPin" type="password"
+    inputmode="numeric" maxlength="6"
+    autocomplete="new-password"
+    placeholder="••••••">
+
+  <button id="resetSubmit">
+    Nieuwe pincode opslaan
+  </button>
+  <button class="alt" id="resetBack">
+    Terug naar aanmelden
+  </button>
 </section>
 
 <section class="card hide" id="profile">
@@ -170,7 +232,9 @@ th { color:var(--muted); }
     </select>
 
     <div id="guideWrap">
-      <label for="guide">Wil jij zwijntjes begeleiden? 🐷</label>
+      <label for="guide">
+        Wil jij zwijntjes begeleiden? 🐷
+      </label>
       <select id="guide">
         <option value="">Maak je keuze</option>
         <option value="ja">Ja, graag!</option>
@@ -179,7 +243,10 @@ th { color:var(--muted); }
       </select>
     </div>
 
-    <button id="vote">🔒 Mijn keuze definitief vastleggen</button>
+    <button id="vote">
+      🔒 Mijn keuze definitief vastleggen
+    </button>
+
     <p class="muted">
       <small>
         Deadline: donderdag 19 november 2026 om 19u11.
@@ -192,7 +259,10 @@ th { color:var(--muted); }
     <p class="ok">🔒 Je keuze is geregistreerd!</p>
     <p><strong>Rol:</strong> <span id="myrole"></span></p>
     <p id="myguide"></p>
-    <p><strong>Vastgelegd op:</strong> <span id="mytime"></span></p>
+    <p>
+      <strong>Vastgelegd op:</strong>
+      <span id="mytime"></span>
+    </p>
   </div>
 
   <button class="alt" id="logout">Uitloggen</button>
@@ -213,14 +283,16 @@ th { color:var(--muted); }
   <input id="adminPassword" type="password"
     autocomplete="current-password">
 
-  <button id="adminSignIn">Aanmelden als spelleider</button>
+  <button id="adminSignIn">
+    Aanmelden als spelleider
+  </button>
 </section>
 
 <section class="card hide" id="adminDashboard">
   <h2>🎯 Spelleiderdashboard</h2>
   <p class="muted">
-    Dit overzicht is alleen zichtbaar voor jouw
-    aangemelde spelleideraccount.
+    Volg de twintig deelnemers op en help iemand
+    die zijn pincode vergeten is.
   </p>
 
   <div class="stats">
@@ -236,6 +308,25 @@ th { color:var(--muted); }
       <strong id="statVoted">0</strong>
       <span>Gestemd</span>
     </div>
+  </div>
+
+  <div class="resetbox hide" id="adminResetBox">
+    <h3>🔑 Herstelcode aangemaakt</h3>
+    <p>
+      Voor <strong id="adminResetName"></strong>
+    </p>
+    <div class="resetcode" id="adminResetCode"></div>
+    <button id="copyResetCode">📋 Code kopiëren</button>
+    <p class="muted">
+      <small>
+        Bezorg deze code persoonlijk aan de deelnemer.
+        Geldig gedurende 30 minuten.
+        Een nieuwe herstelcode maakt de vorige ongeldig.
+      </small>
+    </p>
+    <button class="alt" id="closeResetCode">
+      Sluiten
+    </button>
   </div>
 
   <div class="buttons">
@@ -254,6 +345,7 @@ th { color:var(--muted); }
           <th>Rolvoorkeur</th>
           <th>Begeleiding</th>
           <th>Stemtijd</th>
+          <th>Hulp</th>
         </tr>
       </thead>
       <tbody id="adminRows"></tbody>
@@ -262,6 +354,7 @@ th { color:var(--muted); }
 </section>
 
 <p id="status" role="alert" aria-live="polite"></p>
+
 <p class="footer">
   🐷 Minderjarigen spelen altijd onder begeleiding
   van een verantwoordelijke volwassene.
@@ -273,72 +366,75 @@ th { color:var(--muted); }
 'use strict';
 
 const config = {
-  url:'https://uhpwrphauljuytxpxjqi.supabase.co',
-  key:'sb_publishable_n2aJgQUPeiN2g_fks1LjVA_npSIxoGC'
+  url: 'https://uhpwrphauljuytxpxjqi.supabase.co',
+  key: 'sb_publishable_n2aJgQUPeiN2g_fks1LjVA_npSIxoGC'
 };
 
 const names = [
-  'Tom','Tine','Wim','Elien','Eline',
-  'Thijs','Nils','Silke','Dries','Fre',
-  'Laura','Elena','Arthur','Marie','Emile',
-  'Florian','Lucie','Lisa','Tibo','Camille'
+  'Tom', 'Tine', 'Wim', 'Elien', 'Eline',
+  'Thijs', 'Nils', 'Silke', 'Dries', 'Fre',
+  'Laura', 'Elena', 'Arthur', 'Marie', 'Emile',
+  'Florian', 'Lucie', 'Lisa', 'Tibo', 'Camille'
 ];
 
 const $ = id => document.getElementById(id);
 
-names.forEach(name => {
-  const option = document.createElement('option');
-  option.value = name;
-  option.textContent = name;
-  $('name').appendChild(option);
-});
+for (const name of names) {
+  for (const selectId of ['name', 'resetName']) {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    $(selectId).appendChild(option);
+  }
+}
 
 let playerToken =
   sessionStorage.getItem('klop_session') || '';
 
 let adminSession = null;
-let currentView = 'auth';
+let lastResetCode = '';
 
 function show(id) {
-  currentView = id;
   for (const section of [
-    'auth','profile','adminLogin','adminDashboard'
+    'auth', 'resetScreen', 'profile',
+    'adminLogin', 'adminDashboard'
   ]) {
-    $(section).classList.toggle('hide',section!==id);
+    $(section).classList.toggle('hide', section !== id);
   }
 }
 
-function msg(text,error=false) {
+function msg(text, error = false) {
   $('status').textContent = text;
   $('status').className = error ? 'error' : 'ok';
 }
 
 function busy(value) {
   for (const id of [
-    'claim','login','vote','logout',
-    'adminSignIn','adminSignOut','refresh'
+    'claim', 'login', 'vote', 'logout',
+    'resetSubmit', 'adminSignIn',
+    'adminSignOut', 'refresh'
   ]) {
     $(id).disabled = value;
   }
 }
 
-async function request(path,body,accessToken=null) {
+async function request(path, body, accessToken = null) {
   const headers = {
-    'Content-Type':'application/json',
-    'apikey':config.key
+    'Content-Type': 'application/json',
+    'apikey': config.key
   };
 
   if (accessToken) {
     headers.Authorization = 'Bearer ' + accessToken;
   }
 
-  const response = await fetch(config.url+path,{
-    method:'POST',
+  const response = await fetch(config.url + path, {
+    method: 'POST',
     headers,
-    body:JSON.stringify(body)
+    body: JSON.stringify(body)
   });
 
-  const result = await response.json().catch(()=>null);
+  const result = await response.json().catch(() => null);
 
   if (!response.ok) {
     throw new Error(
@@ -349,16 +445,16 @@ async function request(path,body,accessToken=null) {
     );
   }
 
-  if (result?.error && typeof result.error==='string') {
+  if (result?.error && typeof result.error === 'string') {
     throw new Error(result.error);
   }
 
   return result;
 }
 
-function rpc(fn,data,accessToken=null) {
+function rpc(fn, data, accessToken = null) {
   return request(
-    '/rest/v1/rpc/'+fn,
+    '/rest/v1/rpc/' + fn,
     data,
     accessToken
   );
@@ -366,11 +462,18 @@ function rpc(fn,data,accessToken=null) {
 
 function formatTime(value) {
   if (!value) return '—';
-  return new Intl.DateTimeFormat('nl-BE',{
-    dateStyle:'short',
-    timeStyle:'short',
-    timeZone:'Europe/Brussels'
+
+  return new Intl.DateTimeFormat('nl-BE', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+    timeZone: 'Europe/Brussels'
   }).format(new Date(value));
+}
+
+function clearResetBox() {
+  lastResetCode = '';
+  $('adminResetCode').textContent = '';
+  $('adminResetBox').classList.add('hide');
 }
 
 async function loadPlayer() {
@@ -380,28 +483,31 @@ async function loadPlayer() {
   }
 
   try {
-    const p = await rpc('klop_me',{
-      p_token:playerToken
+    const p = await rpc('klop_me', {
+      p_token: playerToken
     });
 
     show('profile');
-    $('greeting').textContent = 'Welkom, '+p.name+'! 🐷';
+    $('greeting').textContent =
+      'Welkom, ' + p.name + '! 🐷';
 
     const locked = !!p.locked_at;
-    $('voting').classList.toggle('hide',locked);
-    $('locked').classList.toggle('hide',!locked);
-    $('guideWrap').classList.toggle('hide',p.is_minor);
+
+    $('voting').classList.toggle('hide', locked);
+    $('locked').classList.toggle('hide', !locked);
+    $('guideWrap').classList.toggle('hide', p.is_minor);
 
     if (locked) {
       const roles = {
-        speurder:'🔵 Speurder',
-        voortvluchtige:'🔴 Voortvluchtige',
-        verras_me:'🎲 Verras me'
+        speurder: '🔵 Speurder',
+        voortvluchtige: '🔴 Voortvluchtige',
+        verras_me: '🎲 Verras me'
       };
+
       const guides = {
-        ja:'Ja',
-        misschien:'Als het nodig is',
-        nee:'Nee'
+        ja: 'Ja',
+        misschien: 'Als het nodig is',
+        nee: 'Nee'
       };
 
       $('myrole').textContent =
@@ -409,16 +515,17 @@ async function loadPlayer() {
 
       $('myguide').textContent = p.is_minor
         ? ''
-        : 'Zwijntjes begeleiden: '+
+        : 'Zwijntjes begeleiden: ' +
           (guides[p.guide] || '—');
 
-      $('mytime').textContent = formatTime(p.locked_at);
+      $('mytime').textContent =
+        formatTime(p.locked_at);
     }
-  } catch(error) {
+  } catch (error) {
     playerToken = '';
     sessionStorage.removeItem('klop_session');
     show('auth');
-    msg(error.message,true);
+    msg(error.message, true);
   }
 }
 
@@ -427,26 +534,33 @@ async function authenticate(firstTime) {
   const pin = $('pin').value;
 
   if (!name || !/^[0-9]{6}$/.test(pin)) {
-    msg('Kies een naam en een pincode van 6 cijfers.',true);
+    msg(
+      'Kies je naam en een pincode van 6 cijfers.',
+      true
+    );
     return;
   }
 
   if (firstTime && !$('invite').value.trim()) {
-    msg('Vul je persoonlijke uitnodigingscode in.',true);
+    msg('Vul je uitnodigingscode in.', true);
     return;
   }
 
   busy(true);
+
   try {
     const result = await rpc(
       firstTime ? 'klop_claim' : 'klop_login',
       firstTime
         ? {
-            p_name:name,
-            p_invite:$('invite').value.trim(),
-            p_pin:pin
+            p_name: name,
+            p_invite: $('invite').value.trim(),
+            p_pin: pin
           }
-        : {p_name:name,p_pin:pin}
+        : {
+            p_name: name,
+            p_pin: pin
+          }
     );
 
     if (!result?.token) {
@@ -454,15 +568,18 @@ async function authenticate(firstTime) {
     }
 
     playerToken = result.token;
-    sessionStorage.setItem('klop_session',playerToken);
+    sessionStorage.setItem(
+      'klop_session',
+      playerToken
+    );
 
     $('pin').value = '';
     $('invite').value = '';
 
     msg('Je bent aangemeld! 🐷');
     await loadPlayer();
-  } catch(error) {
-    msg(error.message,true);
+  } catch (error) {
+    msg(error.message, true);
   } finally {
     busy(false);
   }
@@ -473,27 +590,35 @@ $('login').onclick = () => authenticate(false);
 
 $('vote').onclick = async () => {
   const role = $('role').value;
-  const minor = $('guideWrap').classList.contains('hide');
+  const minor =
+    $('guideWrap').classList.contains('hide');
+
   const guide = minor ? null : $('guide').value;
 
   if (!role || (!minor && !guide)) {
-    msg('Vul eerst alle keuzes in.',true);
+    msg('Vul eerst alle keuzes in.', true);
     return;
   }
 
-  if (!confirm('Je keuze definitief vastleggen?')) return;
+  if (!confirm(
+    'Ben je zeker? Je keuze wordt definitief vastgelegd.'
+  )) {
+    return;
+  }
 
   busy(true);
+
   try {
-    await rpc('klop_vote',{
-      p_token:playerToken,
-      p_role:role,
-      p_guide:guide
+    await rpc('klop_vote', {
+      p_token: playerToken,
+      p_role: role,
+      p_guide: guide
     });
+
     msg('Je keuze is vergrendeld! 🔒');
     await loadPlayer();
-  } catch(error) {
-    msg(error.message,true);
+  } catch (error) {
+    msg(error.message, true);
   } finally {
     busy(false);
   }
@@ -501,17 +626,20 @@ $('vote').onclick = async () => {
 
 $('logout').onclick = async () => {
   busy(true);
+
   try {
     if (playerToken) {
-      await rpc('klop_logout',{p_token:playerToken});
+      await rpc('klop_logout', {
+        p_token: playerToken
+      });
     }
-  } catch(error) {
-    // Lokaal uitloggen blijft mogelijk.
+  } catch (error) {
+    // Ook bij een verbindingsfout lokaal uitloggen.
   } finally {
     playerToken = '';
     sessionStorage.removeItem('klop_session');
     show('auth');
-    msg('Uitgelogd.');
+    msg('Je bent uitgelogd.');
     busy(false);
   }
 };
@@ -521,8 +649,62 @@ $('goPlayer').onclick = () => {
   loadPlayer();
 };
 
+$('goReset').onclick = () => {
+  msg('');
+  $('resetName').value = $('name').value;
+  show('resetScreen');
+};
+
+$('resetBack').onclick = () => {
+  msg('');
+  show('auth');
+};
+
+$('resetSubmit').onclick = async () => {
+  const name = $('resetName').value;
+  const code = $('resetCode').value.trim();
+  const pin = $('resetPin').value;
+
+  if (!name || !code || !/^[0-9]{6}$/.test(pin)) {
+    msg(
+      'Vul je naam, herstelcode en een nieuwe pincode van 6 cijfers in.',
+      true
+    );
+    return;
+  }
+
+  busy(true);
+
+  try {
+    await rpc('klop_reset_pin', {
+      p_name: name,
+      p_code: code,
+      p_pin: pin
+    });
+
+    playerToken = '';
+    sessionStorage.removeItem('klop_session');
+
+    $('name').value = name;
+    $('pin').value = '';
+    $('resetCode').value = '';
+    $('resetPin').value = '';
+
+    show('auth');
+
+    msg(
+      'Je pincode is gewijzigd! Meld je opnieuw aan met je nieuwe pincode. 🐷'
+    );
+  } catch (error) {
+    msg(error.message, true);
+  } finally {
+    busy(false);
+  }
+};
+
 $('goAdmin').onclick = async () => {
   msg('');
+
   if (adminSession?.access_token) {
     await loadAdmin();
   } else {
@@ -535,15 +717,16 @@ $('adminSignIn').onclick = async () => {
   const password = $('adminPassword').value;
 
   if (!email || !password) {
-    msg('Vul je e-mailadres en wachtwoord in.',true);
+    msg('Vul je e-mailadres en wachtwoord in.', true);
     return;
   }
 
   busy(true);
+
   try {
     const result = await request(
       '/auth/v1/token?grant_type=password',
-      {email,password}
+      { email, password }
     );
 
     if (!result?.access_token) {
@@ -552,10 +735,11 @@ $('adminSignIn').onclick = async () => {
 
     adminSession = result;
     $('adminPassword').value = '';
+
     await loadAdmin();
-  } catch(error) {
+  } catch (error) {
     adminSession = null;
-    msg(error.message,true);
+    msg(error.message, true);
   } finally {
     busy(false);
   }
@@ -568,6 +752,7 @@ async function loadAdmin() {
   }
 
   busy(true);
+
   try {
     const rows = await rpc(
       'klop_organizer_overview',
@@ -577,15 +762,16 @@ async function loadAdmin() {
 
     $('statTotal').textContent = rows.length;
     $('statRegistered').textContent =
-      rows.filter(r=>r.geregistreerd).length;
+      rows.filter(r => r.geregistreerd).length;
     $('statVoted').textContent =
-      rows.filter(r=>r.gestemd).length;
+      rows.filter(r => r.gestemd).length;
 
     const tbody = $('adminRows');
     tbody.replaceChildren();
 
     rows.forEach(r => {
       const tr = document.createElement('tr');
+
       const values = [
         r.speler,
         r.minderjarig ? 'Ja' : 'Nee',
@@ -602,14 +788,36 @@ async function loadAdmin() {
         tr.appendChild(td);
       });
 
+      const helpCell = document.createElement('td');
+
+      if (r.geregistreerd) {
+        const helpButton =
+          document.createElement('button');
+
+        helpButton.className = 'smallbutton alt';
+        helpButton.textContent = '🔑 Herstellen';
+
+        helpButton.onclick = () => {
+          createResetCode(r.speler);
+        };
+
+        helpCell.appendChild(helpButton);
+      } else {
+        helpCell.textContent = '—';
+      }
+
+      tr.appendChild(helpCell);
       tbody.appendChild(tr);
     });
 
     show('adminDashboard');
     msg('Overzicht bijgewerkt.');
-  } catch(error) {
-    msg(error.message,true);
-    if (error.message.toLowerCase().includes('jwt')) {
+  } catch (error) {
+    msg(error.message, true);
+
+    if (
+      error.message.toLowerCase().includes('jwt')
+    ) {
       adminSession = null;
       show('adminLogin');
     }
@@ -617,6 +825,65 @@ async function loadAdmin() {
     busy(false);
   }
 }
+
+async function createResetCode(name) {
+  if (!confirm(
+    'Een nieuwe herstelcode aanmaken voor ' +
+    name + '? De vorige herstelcode vervalt.'
+  )) {
+    return;
+  }
+
+  clearResetBox();
+  busy(true);
+
+  try {
+    const result = await rpc(
+      'klop_admin_reset_pin',
+      { p_name: name },
+      adminSession.access_token
+    );
+
+    lastResetCode = result.herstelcode;
+
+    $('adminResetName').textContent = name;
+    $('adminResetCode').textContent =
+      lastResetCode;
+
+    $('adminResetBox').classList.remove('hide');
+
+    msg(
+      'Herstelcode aangemaakt voor ' + name + '.'
+    );
+
+    $('adminResetBox').scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  } catch (error) {
+    msg(error.message, true);
+  } finally {
+    busy(false);
+  }
+}
+
+$('copyResetCode').onclick = async () => {
+  if (!lastResetCode) return;
+
+  try {
+    await navigator.clipboard.writeText(
+      lastResetCode
+    );
+    msg('Herstelcode gekopieerd.');
+  } catch (error) {
+    msg(
+      'Kopiëren mislukt. Selecteer de code handmatig.',
+      true
+    );
+  }
+};
+
+$('closeResetCode').onclick = clearResetBox;
 
 $('refresh').onclick = loadAdmin;
 
@@ -628,12 +895,13 @@ $('adminSignOut').onclick = async () => {
         {},
         adminSession.access_token
       );
-    } catch(error) {
-      // Sessie ook lokaal wissen.
+    } catch (error) {
+      // Ook lokaal uitloggen bij verbindingsproblemen.
     }
   }
 
   adminSession = null;
+  clearResetBox();
   show('adminLogin');
   msg('Je bent uitgelogd als spelleider.');
 };
