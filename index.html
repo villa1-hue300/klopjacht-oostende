@@ -1,14 +1,236 @@
-<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Klopjacht Oostende · Woste Edition</title><style>:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#f8f3ec;background:#101c29}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#314457,#101c29 65%);min-height:100vh}.wrap{max-width:560px;margin:auto;padding:25px 17px 65px}header{text-align:center;padding:25px 0}h1{font-size:clamp(34px,9vw,58px);margin:5px 0;letter-spacing:-2px}h2{margin-top:0}.red{color:#ff7775}.muted{color:#b4c1cb}.tag{font-size:12px;letter-spacing:3px;font-weight:800}.panel{background:#1c2b3b;border:1px solid #405064;border-radius:20px;padding:22px;margin:18px 0;box-shadow:0 8px 24px #0003}label{display:block;margin:15px 0 6px;font-weight:650}input,select{width:100%;padding:13px;border:1px solid #718294;background:#101c29;color:white;border-radius:10px;font-size:16px}button{width:100%;padding:14px;border:0;border-radius:12px;background:#f26e65;color:#171d28;font-weight:850;font-size:16px;cursor:pointer;margin-top:15px}button:disabled{opacity:.5;cursor:wait}.small{font-size:13px;line-height:1.5}.hide{display:none}.option{display:block;padding:12px;background:#26384b;border:1px solid #455b70;border-radius:12px;margin:9px 0;cursor:pointer}.option input{width:auto;margin-right:10px;accent-color:#f26e65}.status{padding:13px;border-radius:12px;background:#233c4c;margin-top:12px;white-space:pre-wrap}footer{text-align:center;font-size:12px;color:#a7b5c3;padding:18px}code{word-break:break-all}</style></head><body><div class="wrap"><header><div class="tag red">OPERATIE 14:14</div><h1>🐷 KLOPJACHT</h1><div class="tag">OOSTENDE · WOSTE EDITION 🌭</div><p>22 november 2026 · 14u14–17u17</p><p class="muted">Kies je kant. Hou ze geheim.</p></header><section class="panel" id="config"><h2>🔧 Eenmalige koppeling</h2><p class="small">Vul de <b>Project URL</b> en <b>publishable / anon key</b> van Supabase in. Gebruik NOOIT de service_role of secret key. Deze configuratie wordt alleen in deze browser bewaard.</p><label>Supabase Project URL</label><input id="url" placeholder="https://xxxxx.supabase.co"><label>Publishable / anon key</label><input id="key" placeholder="sb_publishable_... of eyJ..."><button id="save">Verbinden</button></section><section class="panel hide" id="auth"><h2>🔐 Aanmelden</h2><p class="small">Iedere speler gebruikt een eigen e-mailadres. Voor kinderen kan een afzonderlijk, door een ouder beheerd e-mailadres gebruikt worden. Eén e-mailadres/account kan maar één speler claimen.</p><label>E-mailadres</label><input id="email" type="email" autocomplete="email" placeholder="jij@voorbeeld.be"><button id="otp">Stuur mijn aanmeldlink</button><p class="small muted">Open de link in je mail op hetzelfde toestel. Controleer in Supabase Authentication → URL Configuration de Site URL en redirect URLs.</p></section><section class="panel hide" id="claim"><h2>🎟️ Wie ben jij?</h2><p class="small">Je hebt een persoonlijke uitnodigingscode nodig die de spelleider privé bezorgt. Zo kan niemand onder jouw naam stemmen.</p><label>Jouw naam</label><select id="name"><option value="">Kies je naam</option></select><label>Privé-uitnodigingscode</label><input id="invite" autocomplete="off" placeholder="Code van de spelleider"><button id="claimBtn">Bevestig mijn identiteit</button></section><section class="panel hide" id="vote"><h2>🐽 Kies je kant</h2><p class="small">Je keuze is geheim en na bevestiging definitief.</p><label class="option"><input type="radio" name="role" value="voortvluchtige"> 🔴 Voortvluchtige</label><label class="option"><input type="radio" name="role" value="speurder"> 🔵 Speurder</label><label class="option"><input type="radio" name="role" value="verras_me"> 🎲 Verrras me</label><div id="guideArea" class="hide"><label>Wil jij zwijntjes begeleiden? 🐷</label><label class="option"><input type="radio" name="guide" value="ja"> Ja, graag!</label><label class="option"><input type="radio" name="guide" value="indien_nodig"> Indien nodig</label><label class="option"><input type="radio" name="guide" value="liever_niet"> Liever niet</label></div><label>Kies je eigen geheime pincode (6–10 cijfers)</label><input id="pin" type="password" inputmode="numeric" minlength="6" maxlength="10" autocomplete="new-password" placeholder="Minstens 6 cijfers"><label>Herhaal je pincode</label><input id="pin2" type="password" inputmode="numeric" minlength="6" maxlength="10" autocomplete="new-password"><p class="small muted">Deze pincode is een extra bevestiging, geen vervanging voor je veilige e-mailaanmelding. Deel hem niet.</p><button id="lock">🔒 Vergrendel mijn keuze</button><p class="small muted">Deadline: 19 november 2026 · 19u11 (Belgische tijd)</p></section><section class="panel hide" id="done"><h2>🐷 Missie aanvaard!</h2><p id="doneText"></p><p class="muted">Je keuze ligt vast. Verdere instructies volgen via WhatsApp. 🌭</p></section><p id="msg" class="status hide" role="status"></p><footer>Iedere minderjarige blijft tijdens het spel onder begeleiding van een verantwoordelijke volwassene. Geen achtervolgingen op de rijbaan of gevaarlijke locaties.</footer></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script>
-const $=id=>document.getElementById(id), panels=['config','auth','claim','vote','done'];let sb=null, me=null;
-function show(id){panels.forEach(p=>$(p).classList.toggle('hide',p!==id))}
-function message(t){$('msg').textContent=t;$('msg').classList.remove('hide')}
-function err(e){message(e?.message||String(e))}
-function connect(){let url=localStorage.getItem('klop_url'),key=localStorage.getItem('klop_key');if(!url||!key)return show('config');$('url').value=url;$('key').value=key;sb=window.supabase.createClient(url,key);init()}
-$('save').onclick=()=>{let u=$('url').value.trim(),k=$('key').value.trim();if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(u)||!k){message('Controleer de URL en sleutel');return}localStorage.setItem('klop_url',u);localStorage.setItem('klop_key',k);connect()};
-async function init(){try{const {data,error}=await sb.auth.getUser();if(error||!data.user){show('auth');return}let r=await sb.rpc('my_status');if(r.error)throw r.error;if(r.data?.length){me=r.data[0];if(me.is_locked){$('doneText').textContent=`${me.player_name}, jouw keuze is veilig geregistreerd en vergrendeld.`;show('done')}else{$('guideArea').classList.toggle('hide',me.minor);show('vote')}return}r=await sb.rpc('available_players');if(r.error)throw r.error;let sel=$('name');sel.replaceChildren(new Option('Kies je naam',''));r.data.forEach(p=>sel.add(new Option(p.player_name,p.player_name)));show('claim')}catch(e){err(e)}}
-$('otp').onclick=async()=>{let email=$('email').value.trim();if(!email)return message('Vul je e-mailadres in');let {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});if(error)err(error);else message('Controleer je mailbox voor de aanmeldlink.')};
-$('claimBtn').onclick=async()=>{if(!$('name').value||!$('invite').value)return message('Kies je naam en vul je uitnodigingscode in');let {error}=await sb.rpc('claim_player',{p_name:$('name').value,p_invite:$('invite').value});if(error)err(error);else{message('Je identiteit is bevestigd.');init()}};
-$('lock').onclick=async()=>{let role=document.querySelector('input[name=role]:checked')?.value,guide=document.querySelector('input[name=guide]:checked')?.value||null,pin=$('pin').value;if(!role)return message('Kies eerst je rol');if(!me.minor&&!guide)return message('Kies of je zwijntjes wil begeleiden');if(!/^\d{6,10}$/.test(pin)||pin!==$('pin2').value)return message('Gebruik 6–10 cijfers en herhaal exact dezelfde pincode');if(!confirm('Je keuze definitief vergrendelen? Nadien kan je niet meer wijzigen.'))return;let {error}=await sb.rpc('lock_choice',{p_role:role,p_guide:me.minor?null:guide,p_pin:pin});if(error)err(error);else{message('Je keuze is vergrendeld!');init()}};
-connect();
-</script></body></html>
 
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Klopjacht Oostende 🐷</title>
+<style>
+body{margin:0;background:#101b2a;color:#f6f4ef;font:16px system-ui}
+main{max-width:520px;margin:35px auto;padding:18px}
+.card{background:#1c2b3e;padding:25px;border-radius:20px;border:1px solid #41516a}
+h1{font-size:2rem}
+label{display:block;margin-top:16px;font-weight:650}
+input,select{width:100%;box-sizing:border-box;margin-top:7px;padding:13px;border-radius:9px;border:0;font-size:16px}
+button{background:#f16b62;color:#111;padding:13px 17px;border:0;border-radius:10px;font-weight:750;cursor:pointer;margin-top:16px}
+button:disabled{opacity:.5}
+button.alt{background:#334c64;color:white}
+.muted{color:#b6c5d6}
+.error{color:#ffc6c6;white-space:pre-wrap}
+.ok{color:#b7e9c1}
+.hide{display:none}
+.grid{display:flex;gap:10px;flex-wrap:wrap}
+.grid>*{flex:1}
+small{color:#b6c5d6}
+</style>
+</head>
+<body>
+<main>
+<h1>🐷 Klopjacht Oostende</h1>
+<p>Woste Edition 🌭 · 22 november 2026 · 14u14–17u17</p>
+
+<section class="card" id="setup">
+<h2>Eenmalige website-instelling</h2>
+<p class="muted">Alleen voor de organisator. Vul de publieke Supabase Project URL en publishable key in. Dit wordt op dit toestel opgeslagen. Voor alle spelers moet de website later centraal geconfigureerd worden.</p>
+<label>Supabase URL
+<input id="url" placeholder="https://xxxx.supabase.co">
+</label>
+<label>Publishable / anon key
+<input id="key" placeholder="sb_publishable_...">
+</label>
+<button id="save">Verbinden</button>
+</section>
+
+<section class="card hide" id="auth">
+<h2>🔐 Mijn geheime dossier</h2>
+<label>Wie ben jij?
+<select id="name"></select>
+</label>
+<label>Jouw pincode (6 cijfers)
+<input id="pin" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="off">
+</label>
+<div id="inviteWrap">
+<label>Persoonlijke uitnodigingscode
+<input id="invite" autocomplete="off" placeholder="Code van de spelleider">
+</label>
+</div>
+<div class="grid">
+<button id="claim">Eerste keer registreren</button>
+<button class="alt" id="login">Ik heb al een pincode</button>
+</div>
+<p class="muted">Geen e-mailadres nodig. Bewaar je pincode. Deel je uitnodigingscode niet.</p>
+</section>
+
+<section class="card hide" id="profile">
+<h2 id="greeting"></h2>
+<div id="voting">
+<p>Je keuze is nog niet vergrendeld.</p>
+<label>Jouw geheime rol
+<select id="role">
+<option value="">Maak je keuze</option>
+<option value="voortvluchtige">🔴 Voortvluchtige</option>
+<option value="speurder">🔵 Speurder</option>
+<option value="verras_me">🎲 Verras me</option>
+</select>
+</label>
+<div id="guideWrap">
+<label>Wil jij zwijntjes begeleiden? 🐷
+<select id="guide">
+<option value="">Maak je keuze</option>
+<option value="ja">Ja, graag!</option>
+<option value="misschien">Als het nodig is</option>
+<option value="nee">Liever niet</option>
+</select>
+</label>
+</div>
+<button id="vote">🔒 Vergrendel mijn keuze</button>
+<p><small>Deadline: 19 november 2026, 19u11 (Belgische tijd). Je keuze kan daarna niet meer worden aangepast.</small></p>
+</div>
+<div id="locked" class="hide">
+<p class="ok">🔒 Je keuze is definitief geregistreerd!</p>
+<p><strong>Rol:</strong> <span id="myrole"></span></p>
+<p id="myguide"></p>
+<p><strong>Vastgelegd op:</strong> <span id="mytime"></span></p>
+<p class="muted">Alleen jij kunt je eigen keuze hier terugzien.</p>
+</div>
+<button class="alt" id="logout">Uitloggen</button>
+</section>
+<p id="status" role="alert"></p>
+<p class="muted"><small>Minderjarigen spelen altijd onder begeleiding van een verantwoordelijke volwassene. Er worden geen live locaties bijgehouden.</small></p>
+</main>
+
+<script>
+const names=['Tom','Tine','Wim','Elien','Eline','Thijs','Nils','Silke','Dries','Fre','Laura','Elena','Arthur','Marie','Emile','Florian','Lucie','Lisa','Tibo','Camille'];
+const $=id=>document.getElementById(id);
+$('name').innerHTML='<option value="">Selecteer je naam</option>'+names.map(n=>`<option>${n}</option>`).join('');
+let config=JSON.parse(localStorage.getItem('klop_config')||'null');
+let token=sessionStorage.getItem('klop_session')||'';
+function show(id){
+  for(let x of ['setup','auth','profile'])$(x).classList.toggle('hide',x!==id);
+}
+function msg(t,error=false){
+  $('status').textContent=t;
+  $('status').className=error?'error':'ok';
+}
+async function rpc(fn,data){
+  if(!config)throw Error('Geen databasekoppeling');
+  const r=await fetch(config.url+'/rest/v1/rpc/'+fn,{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'apikey':config.key,
+      'Authorization':'Bearer '+config.key
+    },
+    body:JSON.stringify(data)
+  });
+  let v=await r.json().catch(()=>null);
+  if(!r.ok)throw Error(v?.message||'Verbinding mislukt');
+  return v;
+}
+async function load(){
+  if(!token){
+    show(config?'auth':'setup');
+    return;
+  }
+  try{
+    let p=await rpc('klop_me',{p_token:token});
+    show('profile');
+    $('greeting').textContent='Welkom, '+p.name+'! 🐷';
+    $('voting').classList.toggle('hide',!!p.locked_at);
+    $('locked').classList.toggle('hide',!p.locked_at);
+    $('guideWrap').classList.toggle('hide',p.is_minor);
+    if(p.locked_at){
+      $('myrole').textContent=({
+        speurder:'🔵 Speurder',
+        voortvluchtige:'🔴 Voortvluchtige',
+        verras_me:'🎲 Verras me'
+      })[p.role];
+      $('myguide').textContent=p.is_minor?'':'Zwijntjes begeleiden: '+({
+        ja:'Ja',misschien:'Indien nodig',nee:'Liever niet'
+      })[p.guide];
+      $('mytime').textContent=new Intl.DateTimeFormat('nl-BE',{
+        dateStyle:'full',timeStyle:'short',timeZone:'Europe/Brussels'
+      }).format(new Date(p.locked_at));
+    }
+  }catch(e){
+    token='';
+    sessionStorage.removeItem('klop_session');
+    show('auth');
+    msg(e.message,true);
+  }
+}
+$('save').onclick=()=>{
+  let url=$('url').value.trim().replace(/\/$/,'');
+  let key=$('key').value.trim();
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(url)||!key){
+    msg('Controleer de Supabase URL en publieke sleutel',true);
+    return;
+  }
+  config={url,key};
+  localStorage.setItem('klop_config',JSON.stringify(config));
+  show('auth');
+  msg('Koppeling lokaal bewaard.');
+};
+async function auth(first){
+  let name=$('name').value,pin=$('pin').value;
+  if(!name||!/^[0-9]{6}$/.test(pin)){
+    msg('Kies je naam en een pincode van 6 cijfers',true);
+    return;
+  }
+  try{
+    let v=await rpc(first?'klop_claim':'klop_login',
+      first?{
+        p_name:name,
+        p_invite:$('invite').value.trim(),
+        p_pin:pin
+      }:{
+        p_name:name,
+        p_pin:pin
+      });
+    token=v.token;
+    sessionStorage.setItem('klop_session',token);
+    $('pin').value='';
+    $('invite').value='';
+    msg('Je bent aangemeld');
+    await load();
+  }catch(e){
+    msg(e.message,true);
+  }
+}
+$('claim').onclick=()=>auth(true);
+$('login').onclick=()=>auth(false);
+$('vote').onclick=async()=>{
+  if(!$('role').value){
+    msg('Kies eerst je rol',true);
+    return;
+  }
+  if(!$('guideWrap').classList.contains('hide')&&!$('guide').value){
+    msg('Kies eerst of je zwijntjes wilt begeleiden',true);
+    return;
+  }
+  if(!confirm('Je keuze definitief vergrendelen?'))return;
+  try{
+    await rpc('klop_vote',{
+      p_token:token,
+      p_role:$('role').value,
+      p_guide:$('guideWrap').classList.contains('hide')?null:$('guide').value
+    });
+    msg('Je keuze is vergrendeld!');
+    await load();
+  }catch(e){
+    msg(e.message,true);
+  }
+};
+$('logout').onclick=async()=>{
+  try{
+    await rpc('klop_logout',{p_token:token});
+  }catch{}
+  token='';
+  sessionStorage.removeItem('klop_session');
+  msg('Uitgelogd');
+  show('auth');
+};
+load();
+</script>
+</body>
+</html>
